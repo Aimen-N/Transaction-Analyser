@@ -18,6 +18,7 @@ namespace ExpenseAnalyser
 
             Console.Write("Enter category: ");
             string Category = Console.ReadLine();
+            
         }
     }
 }
