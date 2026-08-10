@@ -10,6 +10,8 @@ namespace ExpenseAnalyser
     {
         static void Main(string[] args)
         {
+            List<Expense> expenses = new List<Expense>(); //created  a list that holds expense objects
+
             Console.Write("Enter expense description: ");
             string expenseDescr = Console.ReadLine();
 
@@ -20,6 +22,13 @@ namespace ExpenseAnalyser
             string category = Console.ReadLine();
 
             Expense expense = new Expense(expenseDescr, amount, category);
+            expenses.Add(expense);
+            Console.WriteLine(); //adds gap
+            Console.WriteLine("All expenses:");
+            foreach (Expense item in expenses) 
+            {
+                Console.WriteLine($"{item.Description} - £{item.Amount} - {item.Category}"); //prints each expense's detail
+            }
         }
     }
 }
