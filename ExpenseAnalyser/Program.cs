@@ -11,14 +11,15 @@ namespace ExpenseAnalyser
         static void Main(string[] args)
         {
             Console.Write("Enter expense description: ");
-            string ExpenseDescr = Console.ReadLine();
+            string expenseDescr = Console.ReadLine();
 
             Console.Write("Enter amount: ");
-            int Amount = Convert.ToInt32(Console.ReadLine());
+            Decimal amount = Convert.ToDecimal(Console.ReadLine());
 
             Console.Write("Enter category: ");
-            string Category = Console.ReadLine();
-            
+            string category = Console.ReadLine();
+
+            Expense expense = new Expense(expenseDescr, amount, category);
         }
     }
 }
