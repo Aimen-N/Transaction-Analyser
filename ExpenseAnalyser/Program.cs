@@ -11,23 +11,50 @@ namespace ExpenseAnalyser
         static void Main(string[] args)
         {
             List<Expense> expenses = new List<Expense>(); //created  a list that holds expense objects
+            bool Active = true;
 
-            Console.Write("Enter expense description: ");
-            string expenseDescr = Console.ReadLine();
-
-            Console.Write("Enter amount: ");
-            Decimal amount = Convert.ToDecimal(Console.ReadLine());
-
-            Console.Write("Enter category: ");
-            string category = Console.ReadLine();
-
-            Expense expense = new Expense(expenseDescr, amount, category);
-            expenses.Add(expense);
-            Console.WriteLine(); //adds gap
-            Console.WriteLine("All expenses:");
-            foreach (Expense item in expenses) 
+            while (Active)
             {
-                Console.WriteLine($"{item.Description} - £{item.Amount} - {item.Category}"); //prints each expense's detail
+                Console.WriteLine();
+                Console.WriteLine("SELECT AN OPTION BELOW:");
+                Console.WriteLine("1. Add expense");
+                Console.WriteLine("2. View expenses");
+                Console.WriteLine("3. Exit");
+                Console.WriteLine();
+                Console.Write("Please choose your option: ");
+                string Option = Console.ReadLine();
+
+                switch (Option)
+                {
+                    case "1":
+                        Console.Write("Enter expense description: ");
+                        string expenseDescr = Console.ReadLine();
+
+                        Console.Write("Enter amount: ");
+                        Decimal amount = Convert.ToDecimal(Console.ReadLine());
+
+                        Console.Write("Enter category: ");
+                        string category = Console.ReadLine();
+
+                        Expense expense = new Expense(expenseDescr, amount, category);
+                        expenses.Add(expense);
+                        break;
+                    case "2":
+                        Console.WriteLine("All expenses:");
+                        foreach (Expense item in expenses)
+                        {
+                            Console.WriteLine($"{item.Description} - £{item.Amount} - {item.Category}"); //prints each expense's detail
+                        }
+                        break;
+                    case "3":
+                        Active = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option. Please choose 1, 2 or 3.");
+                        break;
+
+                }
             }
         }
     }
