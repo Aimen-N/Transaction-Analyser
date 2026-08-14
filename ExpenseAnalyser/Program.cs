@@ -50,8 +50,19 @@ namespace ExpenseAnalyser
             Console.Write("Enter expense description: ");
             string expenseDescr = Console.ReadLine();
 
-            Console.Write("Enter amount: ");
-            Decimal amount = Convert.ToDecimal(Console.ReadLine());
+            bool validAmount = false;
+            decimal amount=0;
+
+            while (!validAmount) // Keep asking for an amount until the user enters a valid number
+            {
+                Console.Write("Enter amount: ");
+                string useramount = Console.ReadLine();
+                validAmount = decimal.TryParse(useramount, out amount); //TryParse converts the user's input into a decimal, returns true if successful and false if input is invalid
+                if (!validAmount)
+                {
+                    Console.WriteLine("Invalid amount. Please enter a valid number.");
+                }
+            }
 
             Console.Write("Enter category: ");
             string category = Console.ReadLine();
