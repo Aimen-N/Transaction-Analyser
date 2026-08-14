@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpenseAnalyser;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace ExpenseAnalyser
             List<Expense> expenses = new List<Expense>(); //created  a list that holds expense objects
             bool Active = true;
 
-            while (Active)
+            while (Active) //menu interface which keeps running until boolean statement becomes false
             {
                 Console.WriteLine();
                 Console.WriteLine("SELECT AN OPTION BELOW:");
@@ -27,24 +28,10 @@ namespace ExpenseAnalyser
                 switch (Option)
                 {
                     case "1":
-                        Console.Write("Enter expense description: ");
-                        string expenseDescr = Console.ReadLine();
-
-                        Console.Write("Enter amount: ");
-                        Decimal amount = Convert.ToDecimal(Console.ReadLine());
-
-                        Console.Write("Enter category: ");
-                        string category = Console.ReadLine();
-
-                        Expense expense = new Expense(expenseDescr, amount, category);
-                        expenses.Add(expense);
+                        AddExpense(expenses); //calls method for adding expenses
                         break;
                     case "2":
-                        Console.WriteLine("All expenses:");
-                        foreach (Expense item in expenses)
-                        {
-                            Console.WriteLine($"{item.Description} - £{item.Amount} - {item.Category}"); //prints each expense's detail
-                        }
+                        ViewExpenses(expenses); //calls method for viewing expenses
                         break;
                     case "3":
                         Active = false;
@@ -56,6 +43,38 @@ namespace ExpenseAnalyser
 
                 }
             }
+            
+        }
+        static void AddExpense(List<Expense> expenses)
+        {
+            Console.Write("Enter expense description: ");
+            string expenseDescr = Console.ReadLine();
+
+            Console.Write("Enter amount: ");
+            Decimal amount = Convert.ToDecimal(Console.ReadLine());
+
+            Console.Write("Enter category: ");
+            string category = Console.ReadLine();
+
+            Expense expense = new Expense(expenseDescr, amount, category);
+            expenses.Add(expense); //creates an expense
+        }
+        static void ViewExpenses(List<Expense> expenses)
+        {
+            if (expenses.Count == 0)
+            {
+                Console.WriteLine("No expenses have been added.");
+            }
+            else
+            {
+                Console.WriteLine("All expenses:");
+
+                foreach (Expense item in expenses)
+                {
+                    Console.WriteLine($"{item.Description} - £{item.Amount} - {item.Category}");
+                }
+            }
         }
     }
-}
+ }
+
