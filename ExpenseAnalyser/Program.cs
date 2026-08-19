@@ -68,11 +68,31 @@ namespace ExpenseAnalyser
                 }
             }
 
-            Console.Write("Enter category: ");
-            string category = Console.ReadLine();
+            Category category = CategoriseExpense(expenseDescr); //calls the method to automatically determine the category from the description
 
             Expense expense = new Expense(expenseDescr, amount, category);
             expenses.Add(expense); //creates an expense
+        }
+        static Category CategoriseExpense(string description)
+        {
+            string text = description.ToLower(); //converts user input to lower case
+
+            if (text.Contains("tesco") || text.Contains("asda") || text.Contains("aldi") || text.Contains("lidl"))
+            {
+                return Category.Groceries;
+            }
+
+            if (text.Contains("uber") || text.Contains("bus") || text.Contains("train") || text.Contains("taxi"))
+            {
+                return Category.Transport;
+            }
+
+            if (text.Contains("amazon") || text.Contains("ebay"))
+            {
+                return Category.Shopping;
+            }
+
+            return Category.Other;
         }
         static void ViewExpenses(List<Expense> expenses)
         {
