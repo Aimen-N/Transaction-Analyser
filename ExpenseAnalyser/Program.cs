@@ -20,7 +20,8 @@ namespace ExpenseAnalyser
                 Console.WriteLine("SELECT AN OPTION BELOW:");
                 Console.WriteLine("1. Add expense");
                 Console.WriteLine("2. View expenses");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. View spending summary");
+                Console.WriteLine("4. Exit");
                 Console.WriteLine();
                 Console.Write("Please choose your option: ");
                 string Option = Console.ReadLine();
@@ -34,6 +35,9 @@ namespace ExpenseAnalyser
                         ViewExpenses(expenses); //calls method for viewing expenses
                         break;
                     case "3":
+                        ViewSpendingSummary(expenses); //calls method which gives the total and average spending
+                        break;
+                    case "4":
                         Active = false;
                         break;
 
@@ -85,6 +89,21 @@ namespace ExpenseAnalyser
                     Console.WriteLine($"{item.Description} - £{item.Amount} - {item.Category}");
                 }
             }
+        }
+        static void ViewSpendingSummary(List<Expense> expense)
+        {
+
+            decimal Total = 0;
+            decimal Avg = 0;
+            for(int i=0; i<expense.Count; i++)
+            {
+                Total = Total + expense[i].Amount; //All the amounts in the list are added
+                Avg = Total / expense.Count; //calculates average spending
+            }
+            Console.WriteLine($"Total spending: £{Total}");
+            Console.WriteLine($"Average spending: £{Avg}");
+
+
         }
     }
  }
