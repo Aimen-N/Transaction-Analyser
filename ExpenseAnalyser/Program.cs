@@ -102,8 +102,6 @@ namespace ExpenseAnalyser
             }
             Console.WriteLine($"Total spending: £{Total}");
             Console.WriteLine($"Average spending: £{Avg}");
-
-
         }
     }
  }
