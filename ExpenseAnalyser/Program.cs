@@ -1,9 +1,11 @@
 ﻿using ExpenseAnalyser;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ExpenseAnalyser
 {
@@ -21,7 +23,8 @@ namespace ExpenseAnalyser
                 Console.WriteLine("1. Add expense");
                 Console.WriteLine("2. View expenses");
                 Console.WriteLine("3. View spending summary");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("4. View spending by category");
+                Console.WriteLine("5. Exit");
                 Console.WriteLine();
                 Console.Write("Please choose your option: ");
                 string Option = Console.ReadLine();
@@ -38,6 +41,9 @@ namespace ExpenseAnalyser
                         ViewSpendingSummary(expenses); //calls method which gives the total and average spending
                         break;
                     case "4":
+                        ViewSpendingByCategory(expenses);
+                        break;
+                    case "5":
                         Active = false;
                         break;
 
@@ -110,18 +116,81 @@ namespace ExpenseAnalyser
                 }
             }
         }
-        static void ViewSpendingSummary(List<Expense> expense)
+        static void ViewSpendingSummary(List<Expense> expenses)
         {
 
             decimal Total = 0;
             decimal Avg = 0;
-            for(int i=0; i<expense.Count; i++)
+            for(int i=0; i<expenses.Count; i++)
             {
-                Total = Total + expense[i].Amount; //All the amounts in the list are added
-                Avg = Total / expense.Count; //calculates average spending
+                Total = Total + expenses[i].Amount; //All the amounts in the list are added
+                Avg = Total / expenses.Count; //calculates average spending
             }
             Console.WriteLine($"Total spending: £{Total}");
             Console.WriteLine($"Average spending: £{Avg}");
+        }
+
+        static void ViewSpendingByCategory(List<Expense> expenses)
+        {
+            Console.WriteLine("Select a category "); //category options
+            Console.WriteLine();
+            Console.WriteLine("1. Groceries");
+            Console.WriteLine("2. Transport");
+            Console.WriteLine("3. Shopping");
+            Console.WriteLine("4. EatingOut");
+            Console.WriteLine("5. Entertainment");
+            Console.WriteLine("6. Bills");
+            string input = Console.ReadLine();
+            Category SelectedCategory; //stores the category selected by the user
+
+            switch (input)
+            {
+                case "1":
+                    SelectedCategory = Category.Groceries;
+                    break;
+                case "2":
+                    SelectedCategory = Category.Transport;
+                    break;
+                case "3":
+                    SelectedCategory = Category.Shopping;
+                    break;
+                case "4":
+                    SelectedCategory = Category.EatingOut;
+                    break;
+                case "5":
+                    SelectedCategory = Category.Entertainment;
+                    break;
+                case "6":
+                    SelectedCategory = Category.Bills;
+                    break;
+                case "7":
+                    SelectedCategory = Category.Other;
+                    break;
+                default:
+                    Console.WriteLine("Invalid category.");
+                    return;
+            }
+            Console.WriteLine();
+            decimal TotalAmount = 0;
+            bool ExpenseFound = false;
+
+            foreach(Expense item in expenses)
+            {
+                if(item.Category == SelectedCategory) //matches the user selected category to the category in each expense
+                {
+                    TotalAmount = TotalAmount + item.Amount; //calculates the total spending for a specific category
+                    ExpenseFound = true;
+                }
+            }
+            if (!ExpenseFound) //checks to see if no expenses were found in the selected category
+            {
+                Console.WriteLine("No expenses found in this category. ");
+            } else
+            {
+                Console.WriteLine($"You spent £{TotalAmount} in {SelectedCategory}");
+            }
+
+
         }
     }
  }
