@@ -14,6 +14,7 @@ namespace ExpenseAnalyser
         static void Main(string[] args)
         {
             List<Expense> expenses = new List<Expense>(); //created  a list that holds expense objects
+            List<CategorisationRule> LearnedRules = new List<CategorisationRule>();//stores what the program has learned
             bool Active = true;
 
             while (Active) //menu interface which keeps running until boolean statement becomes false
@@ -55,7 +56,7 @@ namespace ExpenseAnalyser
             }
             
         }
-        static void AddExpense(List<Expense> expenses)
+        static void AddExpense(List<Expense> expenses, List<CategorisationRule> LearnedRules)
         {
             Console.Write("Enter expense description: ");
             string expenseDescr = Console.ReadLine();
