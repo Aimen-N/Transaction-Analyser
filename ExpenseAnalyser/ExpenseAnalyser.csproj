@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategorisationRule.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Expense.cs" />
     <Compile Include="Program.cs" />

@@ -88,7 +88,7 @@ namespace ExpenseAnalyser
                 return Category.Groceries;
             }
 
-            if (text.Contains("uber") || text.Contains("bus") || text.Contains("train") || text.Contains("taxi"))
+            if (text.Contains("uber") || text.Contains("bus") || text.Contains("train") || text.Contains("taxi") || text.Contains("tram"))
             {
                 return Category.Transport;
             }
@@ -96,6 +96,11 @@ namespace ExpenseAnalyser
             if (text.Contains("amazon") || text.Contains("ebay"))
             {
                 return Category.Shopping;
+            }
+
+            if (text.Contains("netflix") || text.Contains("amazon prime") || text.Contains("disney plus") || text.Contains("hbo max"))
+            {
+                return Category.Entertainment;
             }
 
             return Category.Other;
@@ -118,7 +123,6 @@ namespace ExpenseAnalyser
         }
         static void ViewSpendingSummary(List<Expense> expenses)
         {
-
             decimal Total = 0;
             decimal Avg = 0;
             for(int i=0; i<expenses.Count; i++)
@@ -189,8 +193,6 @@ namespace ExpenseAnalyser
             {
                 Console.WriteLine($"You spent £{TotalAmount} in {SelectedCategory}");
             }
-
-
         }
     }
  }
