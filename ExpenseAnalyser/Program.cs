@@ -33,7 +33,7 @@ namespace ExpenseAnalyser
                 switch (Option)
                 {
                     case "1":
-                        AddExpense(expenses); //calls method for adding expenses
+                        AddExpense(expenses, LearnedRules); //calls method for adding expenses
                         break;
                     case "2":
                         ViewExpenses(expenses); //calls method for viewing expenses
@@ -75,12 +75,12 @@ namespace ExpenseAnalyser
                 }
             }
 
-            Category category = CategoriseExpense(expenseDescr); //calls the method to automatically determine the category from the description
+            Category category = CategoriseExpense(expenseDescr, LearnedRules); //calls the method to automatically determine the category from the description
 
             Expense expense = new Expense(expenseDescr, amount, category);
             expenses.Add(expense); //creates an expense
         }
-        static Category CategoriseExpense(string description)
+        static Category CategoriseExpense(string description, List<CategorisationRule> LearnedRules)
         {
             string text = description.ToLower(); //converts user input to lower case
 
@@ -104,6 +104,13 @@ namespace ExpenseAnalyser
                 return Category.Entertainment;
             }
 
+            foreach (CategorisationRule rule in LearnedRules) //goes through all the rules that are learned
+            {
+                if (text.Contains(rule.Keyword.ToLower()))
+                {
+                    return rule.Category; //if the expense description matches then save it in that category
+                }
+            }
             return Category.Other;
         }
         static void ViewExpenses(List<Expense> expenses)
