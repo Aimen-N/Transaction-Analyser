@@ -111,7 +111,48 @@ namespace ExpenseAnalyser
                     return rule.Category; //if the expense description matches then save it in that category
                 }
             }
-            return Category.Other;
+            return AskForCategory(description, LearnedRules);
+        }
+        static Category AskForCategory(string description, List<CategorisationRule> LearnedRules)
+        {
+            Console.WriteLine("Unable to assign a category for this expense. Please select one of the following categories you think is appropriate");
+            Console.WriteLine();
+            Console.WriteLine("1. Groceries");
+            Console.WriteLine("2. Transport");
+            Console.WriteLine("3. Shopping");
+            Console.WriteLine("4. EatingOut");
+            Console.WriteLine("5. Entertainment");
+            Console.WriteLine("6. Bills");
+            string Input = Console.ReadLine();
+            Category SelectedCategory;
+
+            switch (Input) 
+            {
+                case "1":
+                    SelectedCategory = Category.Groceries;
+                    break;
+                case "2":
+                    SelectedCategory = Category.Transport;
+                    break;
+                case "3":
+                    SelectedCategory = Category.Shopping;
+                    break;
+                case "4":
+                    SelectedCategory = Category.EatingOut;
+                    break;
+                case "5":
+                    SelectedCategory = Category.Entertainment;
+                    break;
+                case "6":
+                    SelectedCategory = Category.Bills;
+                    break;
+                default:
+                    Console.WriteLine("Invalid category.");
+                    return Category.Other;
+            }
+            CategorisationRule NewRule = new CategorisationRule(description, SelectedCategory); //created a new rule object
+            LearnedRules.Add(NewRule); //added it to the list of learned rules
+            return SelectedCategory;
         }
         static void ViewExpenses(List<Expense> expenses)
         {
@@ -174,9 +215,6 @@ namespace ExpenseAnalyser
                     break;
                 case "6":
                     SelectedCategory = Category.Bills;
-                    break;
-                case "7":
-                    SelectedCategory = Category.Other;
                     break;
                 default:
                     Console.WriteLine("Invalid category.");
