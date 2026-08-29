@@ -1,7 +1,9 @@
 ﻿using ExpenseAnalyser;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +27,8 @@ namespace ExpenseAnalyser
                 Console.WriteLine("2. View expenses");
                 Console.WriteLine("3. View spending summary");
                 Console.WriteLine("4. View spending by category");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("5. Export Expenses");
+                Console.WriteLine("6. Exit");
                 Console.WriteLine();
                 Console.Write("Please choose your option: ");
                 string Option = Console.ReadLine();
@@ -45,9 +48,11 @@ namespace ExpenseAnalyser
                         ViewSpendingByCategory(expenses);
                         break;
                     case "5":
+                        ExportExpense(expenses); //calls method which exports the list of expenses
+                        break;
+                    case "6":
                         Active = false;
                         break;
-
                     default:
                         Console.WriteLine("Invalid option. Please choose 1, 2 or 3.");
                         break;
@@ -116,13 +121,13 @@ namespace ExpenseAnalyser
         static Category AskForCategory(string description, List<CategorisationRule> LearnedRules)
         {
             Console.WriteLine("Unable to assign a category for this expense. Please select one of the following categories you think is appropriate");
-            Console.WriteLine();
             Console.WriteLine("1. Groceries");
             Console.WriteLine("2. Transport");
             Console.WriteLine("3. Shopping");
             Console.WriteLine("4. EatingOut");
             Console.WriteLine("5. Entertainment");
             Console.WriteLine("6. Bills");
+            Console.Write("Select a Category number: ");
             string Input = Console.ReadLine();
             Category SelectedCategory;
 
@@ -185,14 +190,14 @@ namespace ExpenseAnalyser
 
         static void ViewSpendingByCategory(List<Expense> expenses)
         {
-            Console.WriteLine("Select a category "); //category options
-            Console.WriteLine();
+            Console.WriteLine("* SELECT CATEGORY FROM BELOW *"); //category options
             Console.WriteLine("1. Groceries");
             Console.WriteLine("2. Transport");
             Console.WriteLine("3. Shopping");
             Console.WriteLine("4. EatingOut");
             Console.WriteLine("5. Entertainment");
             Console.WriteLine("6. Bills");
+            Console.Write("Select a Category: ");
             string input = Console.ReadLine();
             Category SelectedCategory; //stores the category selected by the user
 
@@ -239,6 +244,17 @@ namespace ExpenseAnalyser
             {
                 Console.WriteLine($"You spent £{TotalAmount} in {SelectedCategory}");
             }
+        }
+        static void ExportExpense(List<Expense> expenses)
+        {
+            using (StreamWriter write = new StreamWriter("expenses.csv")) //opens expenses.csv for writing
+            {
+                foreach(Expense item in expenses)
+                {
+                    write.WriteLine($"{item.Description}, {item.Amount}, {item.Category}"); //write each expense as a line in the CSV file
+                }
+            }
+            Console.WriteLine("Expenses successfully Exported");
         }
     }
  }
