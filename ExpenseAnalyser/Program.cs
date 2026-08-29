@@ -157,6 +157,7 @@ namespace ExpenseAnalyser
             }
             CategorisationRule NewRule = new CategorisationRule(description, SelectedCategory); //created a new rule object
             LearnedRules.Add(NewRule); //added it to the list of learned rules
+            SavedRules(LearnedRules); //everytime a new rule is learnt it is added to rules.csv
             return SelectedCategory;
         }
         static void ViewExpenses(List<Expense> expenses)
@@ -256,6 +257,18 @@ namespace ExpenseAnalyser
                 }
             }
             Console.WriteLine("Expenses successfully Exported");
+        }
+
+        static void SavedRules(List<CategorisationRule> LearnedRules)
+        {
+            using (StreamWriter write = new StreamWriter("rules.csv")) //opens rules.csv for writing
+            {
+                write.WriteLine("Keyword, Category"); //column headers
+                foreach(CategorisationRule rule in LearnedRules)
+                {
+                    write.WriteLine($"{rule.Keyword}, {rule.Category}"); //Learned rule as a line in the rules.csv file
+                }
+            }
         }
     }
  }
