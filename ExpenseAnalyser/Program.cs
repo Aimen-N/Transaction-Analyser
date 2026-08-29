@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
@@ -267,6 +268,31 @@ namespace ExpenseAnalyser
                 foreach(CategorisationRule rule in LearnedRules)
                 {
                     write.WriteLine($"{rule.Keyword}, {rule.Category}"); //Learned rule as a line in the rules.csv file
+                }
+            }
+        }
+
+        static void LoadRules(List<CategorisationRule> LearnedRules)
+        {
+            if (!File.Exists("rules.csv")) //if rules.csv doesn't exist then exist the method
+            {
+                return;
+            }
+            using (StreamReader read = new StreamReader("rules.csv"))
+            {
+                read.ReadLine();
+                string Line;
+                Line = read.ReadLine(); //reads the next line and places it in "Line"
+
+                while (Line != null) //keeps looping while there is still another line to read
+                {
+                    Line = read.ReadLine();
+                    string[] parts = Line.Split(','); //splits each line into 2 parts
+                    string keyword = parts[0]; //part 0 is the keyword
+                    Category category = (Category)Enum.Parse(typeof(Category), parts[1]); //converts part 1 into a Category type
+
+                    CategorisationRule rule = new CategorisationRule(keyword, category);
+                    LearnedRules.Add(rule);
                 }
             }
         }
