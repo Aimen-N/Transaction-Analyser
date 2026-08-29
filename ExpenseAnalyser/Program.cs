@@ -249,6 +249,7 @@ namespace ExpenseAnalyser
         {
             using (StreamWriter write = new StreamWriter("expenses.csv")) //opens expenses.csv for writing
             {
+                write.WriteLine("Description, Amount, Category"); //column headers 
                 foreach(Expense item in expenses)
                 {
                     write.WriteLine($"{item.Description}, {item.Amount}, {item.Category}"); //write each expense as a line in the CSV file
